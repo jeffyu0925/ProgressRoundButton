@@ -40,7 +40,7 @@ you can define the button in xml like this:
             app:progressbtn_enable_press="true"/>
 ```
 
-* You can also implement your own `ButtonController`,so that you can controll gradient effect;
+* You can also implement your own `ButtonController`,so that you can controller gradient effect;
 
 
 
