@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -16,37 +15,39 @@ import android.graphics.Shader;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.core.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.view.animation.PathInterpolatorCompat;
 
 /**
  * Created by tanfujun on 15/9/4.
  */
-public class AnimDownloadProgressButton extends TextView {
+public class AnimDownloadProgressButton extends AppCompatTextView {
 
     private Context mContext;
 
-    //背景画笔
+    // 背景畫筆
     private Paint mBackgroundPaint;
-    //按钮文字画笔
+    // 按鈕文字畫筆
     private volatile Paint mTextPaint;
-    //第一个点画笔
+    // 第一個點畫筆
     private Paint mDot1Paint;
-    //第二个点画笔
+    // 第二個點畫筆
     private Paint mDot2Paint;
 
 
-    //背景颜色
+    // 背景顏色
     private int[] mBackgroundColor;
     private int[] mOriginBackgroundColor;
-    //下载中后半部分后面背景颜色
+    // 下載中後半部分後面背景顏色
     private int mBackgroundSecondColor;
-    //文字颜色
+    // 文字顏色
     private int mTextColor;
-    //覆盖后颜色
+    // 覆蓋後顏色
     private int mTextCoverColor;
-    //文字大小
+    // 文字大小
     private float mAboveTextSize = 50;
 
 
@@ -58,7 +59,7 @@ public class AnimDownloadProgressButton extends TextView {
 
     private float mButtonRadius;
 
-    //两个点向右移动距离
+    // 兩個點向右移動距離
     private float mDot1transX;
     private float mDot2transX;
 
@@ -67,19 +68,19 @@ public class AnimDownloadProgressButton extends TextView {
     private LinearGradient mProgressBgGradient;
     private LinearGradient mProgressTextGradient;
 
-    //点运动动画
+    // 點運動動畫
     private AnimatorSet mDotAnimationSet;
-    //下载平滑动画
+    // 下載平滑動畫
     private ValueAnimator mProgressAnimation;
 
-    //记录当前文字
+    // 記錄當前文字
     private CharSequence mCurrentText;
 
-    //普通状态
+    // 普通狀態
     public static final int NORMAL = 0;
-    //下载中
+    // 下載中
     public static final int DOWNLOADING = 1;
-    //有点运动状态
+    // 有點運動狀態
     public static final int INSTALLING = 2;
 
     private ButtonController mDefaultController;
@@ -146,7 +147,7 @@ public class AnimDownloadProgressButton extends TextView {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnimDownloadProgressButton);
         int bgColor = a.getColor(R.styleable.AnimDownloadProgressButton_progressbtn_background_color, Color.parseColor("#6699ff"));
-        //初始化背景颜色数组
+        // 初始化背景顏色數組
         initGradientColor(bgColor, bgColor);
         mBackgroundSecondColor = a.getColor(R.styleable.AnimDownloadProgressButton_progressbtn_background_second_color, Color.LTGRAY);
         mButtonRadius = a.getFloat(R.styleable.AnimDownloadProgressButton_progressbtn_radius, getMeasuredHeight() / 2);
@@ -169,38 +170,36 @@ public class AnimDownloadProgressButton extends TextView {
         mProgress = 0;
 
 
-        //设置背景画笔
+        // 設置背景畫筆
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
 
-        //设置文字画笔
+        // 設置文字畫筆
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(mAboveTextSize);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            //解决文字有时候画不出问题
-            setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
-        }
 
-        //设置第一个点画笔
+        setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
+
+        // 設置第一個點畫筆
         mDot1Paint = new Paint();
         mDot1Paint.setAntiAlias(true);
         mDot1Paint.setTextSize(mAboveTextSize);
 
-        //设置第二个点画笔
+        // 設置第二個點畫筆
         mDot2Paint = new Paint();
         mDot2Paint.setAntiAlias(true);
         mDot2Paint.setTextSize(mAboveTextSize);
 
 
-        //初始化状态设为NORMAL
+        // 初始化狀態設為NORMAL
         mState = NORMAL;
         invalidate();
 
     }
 
-    //初始化渐变色
+    // 初始化漸變色
     private int[] initGradientColor(int leftColor, int rightColor) {
         mBackgroundColor = new int[2];
         mBackgroundColor[0] = leftColor;
@@ -211,7 +210,7 @@ public class AnimDownloadProgressButton extends TextView {
 
     private void setupAnimations() {
 
-        //两个点向右移动动画
+        // 兩個點向右移動動畫
         ValueAnimator dotMoveAnimation = ValueAnimator.ofFloat(0, 20);
         TimeInterpolator pathInterpolator = PathInterpolatorCompat.create(0.11f, 0f, 0.12f, 1f);
         dotMoveAnimation.setInterpolator(pathInterpolator);
@@ -229,7 +228,7 @@ public class AnimDownloadProgressButton extends TextView {
         dotMoveAnimation.setRepeatCount(ValueAnimator.INFINITE);
 
 
-        //两个点渐显渐隐动画
+        // 兩個點漸顯漸隱動畫
         final ValueAnimator dotAlphaAnim = ValueAnimator.ofInt(0, 1243).setDuration(1243);
         dotAlphaAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -269,11 +268,11 @@ public class AnimDownloadProgressButton extends TextView {
         });
         dotAlphaAnim.setRepeatMode(ValueAnimator.RESTART);
         dotAlphaAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //两个点的动画集合
+        // 兩個點的動畫集合
         mDotAnimationSet = new AnimatorSet();
         mDotAnimationSet.playTogether(dotAlphaAnim, dotMoveAnimation);
 
-        //ProgressBar的动画
+        // ProgressBar的動畫
         mProgressAnimation = ValueAnimator.ofFloat(0, 1).setDuration(500);
         mProgressAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -287,7 +286,7 @@ public class AnimDownloadProgressButton extends TextView {
 
     }
 
-    //第一个点透明度计算函数
+    //  第一個點透明度計算函數
     private int calculateDot2AlphaByTime(int time) {
         int alpha;
         if (0 <= time && time <= 83) {
@@ -306,7 +305,7 @@ public class AnimDownloadProgressButton extends TextView {
         return alpha;
     }
 
-    //第二个点透明度计算函数
+    //  第二個點透明度計算函數
     private int calculateDot1AlphaByTime(int time) {
         int alpha;
         if (0 <= time && time <= 160) {
@@ -356,7 +355,6 @@ public class AnimDownloadProgressButton extends TextView {
 
         ButtonController buttonController = switchController();
 
-        //color
         switch (mState) {
             case NORMAL:
                 if (buttonController.enableGradient()) {
@@ -417,7 +415,7 @@ public class AnimDownloadProgressButton extends TextView {
             mCurrentText = "";
         }
         final float textWidth = mTextPaint.measureText(mCurrentText.toString());
-        //color
+
         switch (mState) {
             case NORMAL:
                 mTextPaint.setShader(null);
@@ -426,13 +424,13 @@ public class AnimDownloadProgressButton extends TextView {
                 break;
             case DOWNLOADING:
 
-                //进度条压过距离
+                // 進度條壓過距離
                 float coverlength = getMeasuredWidth() * mProgressPercent;
-                //开始渐变指示器
+                // 開始漸變指示器
                 float indicator1 = getMeasuredWidth() / 2 - textWidth / 2;
-                //结束渐变指示器
+                // 結束漸變指示器
                 float indicator2 = getMeasuredWidth() / 2 + textWidth / 2;
-                //文字变色部分的距离
+                // 文字變色部分的距離
                 float coverTextLength = textWidth / 2 - getMeasuredWidth() / 2 + coverlength;
                 float textProgress = coverTextLength / textWidth;
                 if (coverlength <= indicator1) {
@@ -475,11 +473,11 @@ public class AnimDownloadProgressButton extends TextView {
     }
 
     public void setState(int state) {
-        if (mState != state) {//状态确实有改变
+        //  檢查狀態是否改變
+        if (mState != state) {
             this.mState = state;
             invalidate();
             if (state == AnimDownloadProgressButton.INSTALLING) {
-                //开启两个点动画
                 mDotAnimationSet.start();
             } else if (state == NORMAL) {
                 mDotAnimationSet.cancel();
@@ -491,34 +489,11 @@ public class AnimDownloadProgressButton extends TextView {
     }
 
     /**
-     * 设置按钮文字
+     * 設置按鈕文字
      */
     public void setCurrentText(CharSequence charSequence) {
         mCurrentText = charSequence;
         invalidate();
-    }
-
-
-    /**
-     * 设置带下载进度的文字
-     */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void setProgressText(String text, float progress) {
-        if (progress >= mMinProgress && progress < mMaxProgress) {
-            mCurrentText = text + getResources().getString(R.string.downloaded, (int) progress);
-            mToProgress = progress;
-            if (mProgressAnimation.isRunning()) {
-                mProgressAnimation.start();
-            } else {
-                mProgressAnimation.start();
-            }
-        } else if (progress < mMinProgress) {
-            mProgress = 0;
-        } else if (progress >= mMaxProgress) {
-            mProgress = 100;
-            mCurrentText = text + getResources().getString(R.string.downloaded, (int) mProgress);
-            invalidate();
-        }
     }
 
     public float getProgress() {
@@ -592,13 +567,13 @@ public class AnimDownloadProgressButton extends TextView {
         mMaxProgress = maxProgress;
     }
 
-    public void enabelDefaultPress(boolean enable) {
+    public void enableDefaultPress(boolean enable) {
         if (mDefaultController != null) {
             ((DefaultButtonController) mDefaultController).setEnablePress(enable);
         }
     }
 
-    public void enabelDefaultGradient(boolean enable) {
+    public void enableDefaultGradient(boolean enable) {
         if (mDefaultController != null) {
             ((DefaultButtonController) mDefaultController).setEnableGradient(enable);
             initGradientColor(mDefaultController.getLighterColor(mBackgroundColor[0]), mBackgroundColor[0]);

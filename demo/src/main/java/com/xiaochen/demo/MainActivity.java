@@ -3,7 +3,9 @@ package com.xiaochen.demo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         mDescription = findViewById(R.id.description);
 
         mAnimDownloadProgressButton = findViewById(R.id.anim_btn);
-        mAnimDownloadProgressButton.setCurrentText("安装");
-//        mAnimDownloadProgressButton.setTextSize(60f);
+        mAnimDownloadProgressButton.setCurrentText("安裝");
+        mAnimDownloadProgressButton.setTextSize(60f);
         mAnimDownloadProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAnimDownloadProgressButton2 = findViewById(R.id.anim_btn2);
-        mAnimDownloadProgressButton2.setCurrentText("安装");
+        mAnimDownloadProgressButton2.setCurrentText("安裝");
         mAnimDownloadProgressButton2.setTextSize(60f);
         mAnimDownloadProgressButton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mAnimButtonLayout = findViewById(R.id.anim_btn3);
-        mAnimButtonLayout.setCurrentText("安装");
+        mAnimButtonLayout.setCurrentText("安裝");
         mAnimButtonLayout.setTextSize(60f);
         mAnimButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAnimDownloadProgressButton.setState(AnimDownloadProgressButton.NORMAL);
-                mAnimDownloadProgressButton.setCurrentText("安装");
+                mAnimDownloadProgressButton.setCurrentText("安裝");
                 mAnimDownloadProgressButton.setProgress(0);
             }
         });
@@ -109,53 +111,52 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.anim_btn:
                 mAnimDownloadProgressButton.setState(AnimDownloadProgressButton.DOWNLOADING);
-                mAnimDownloadProgressButton.setProgressText("下载中", mAnimDownloadProgressButton.getProgress() + 8);
+                mAnimDownloadProgressButton.setProgress(mAnimDownloadProgressButton.getProgress() + 8);
+                mAnimDownloadProgressButton.setCurrentText("下載中 " + mAnimDownloadProgressButton.getProgress());
                 Log.d(TAG, "showTheButton: " + mAnimDownloadProgressButton.getProgress());
                 if (mAnimDownloadProgressButton.getProgress() + 10 > 100) {
                     mAnimDownloadProgressButton.setState(AnimDownloadProgressButton.INSTALLING);
-                    mAnimDownloadProgressButton.setCurrentText("安装中");
+                    mAnimDownloadProgressButton.setCurrentText("安裝中");
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             mAnimDownloadProgressButton.setState(AnimDownloadProgressButton.NORMAL);
-                            mAnimDownloadProgressButton.setCurrentText("打开");
+                            mAnimDownloadProgressButton.setCurrentText("打開");
                         }
-                    }, 2000);   //2秒
+                    }, 2000);
                 }
                 break;
             case R.id.anim_btn2:
                 mAnimDownloadProgressButton2.setState(AnimDownloadProgressButton.DOWNLOADING);
-                mAnimDownloadProgressButton2.setProgressText("下载中", mAnimDownloadProgressButton2.getProgress() + 8);
+                mAnimDownloadProgressButton2.setProgress(mAnimDownloadProgressButton2.getProgress() + 8);
+                mAnimDownloadProgressButton2.setCurrentText("下載中 " + mAnimDownloadProgressButton2.getProgress());
                 Log.d(TAG, "showTheButton: " + mAnimDownloadProgressButton2.getProgress());
                 if (mAnimDownloadProgressButton2.getProgress() + 10 > 100) {
                     mAnimDownloadProgressButton2.setState(AnimDownloadProgressButton.INSTALLING);
-                    mAnimDownloadProgressButton2.setCurrentText("安装中");
+                    mAnimDownloadProgressButton2.setCurrentText("安裝中");
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             mAnimDownloadProgressButton2.setState(AnimDownloadProgressButton.NORMAL);
-                            mAnimDownloadProgressButton2.setCurrentText("打开");
+                            mAnimDownloadProgressButton2.setCurrentText("打開");
                         }
-                    }, 2000);   //2秒
+                    }, 2000);
                 }
                 break;
             case R.id.anim_btn3:
                 mAnimButtonLayout.setState(AnimDownloadProgressButton.DOWNLOADING);
-                mAnimButtonLayout.setProgressText("下载中", mAnimButtonLayout.getProgress() + 8);
+                mAnimButtonLayout.setProgress(mAnimButtonLayout.getProgress() + 8);
+                mAnimButtonLayout.setCurrentText("下載中 " + mAnimButtonLayout.getProgress());
                 Log.d(TAG, "showTheButton: " + mAnimButtonLayout.getProgress());
                 if (mAnimButtonLayout.getProgress() + 10 > 100) {
                     mAnimButtonLayout.setState(AnimDownloadProgressButton.INSTALLING);
-                    mAnimButtonLayout.setCurrentText("安装中");
+                    mAnimButtonLayout.setCurrentText("安裝中");
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             mAnimButtonLayout.setState(AnimDownloadProgressButton.NORMAL);
-                            mAnimButtonLayout.setCurrentText("打开");
+                            mAnimButtonLayout.setCurrentText("打開");
                         }
-                    }, 2000);   //2秒
+                    }, 2000);
                 }
                 break;
         }
-
-
     }
-
-
 }

@@ -9,7 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -24,7 +23,7 @@ import android.widget.LinearLayout;
 public class AnimButtonLayout extends LinearLayout {
 
     private AnimDownloadProgressButton mDownloadProgressButton;
-    private Drawable mShadowDrawable;//阴影
+    private Drawable mShadowDrawable;
     private final int DEFAULT_COLOR = Color.GRAY;
     private TimeInterpolator mInterpolator;
     private ValueAnimator mLayoutDownAnimator;
@@ -74,14 +73,13 @@ public class AnimButtonLayout extends LinearLayout {
     protected void dispatchDraw(Canvas canvas) {
         canvas.save();
         canvas.scale(mCanvasScale, mCanvasScale, mCenterX, mCenterY);
-        Log.w("tan", mCanvasScale + "");
         drawShadow(canvas);
         super.dispatchDraw(canvas);
         canvas.restore();
     }
 
     /**
-     * 画阴影
+     * 畫陰影
      *
      * @param canvas
      */
@@ -89,9 +87,9 @@ public class AnimButtonLayout extends LinearLayout {
         if (mShadowDrawable == null) {
             return;
         }
-        //绘制阴影,阴影也会根据触摸事件进行旋转
+        // 繪制陰影,陰影也會根據觸摸事件進行旋轉
         canvas.save();
-        float scale = 1 - (1 - mCanvasScale) * 6;//scale最小是为0.7f
+        float scale = 1 - (1 - mCanvasScale) * 6;// scale最小是為0.7f
         canvas.scale(scale, scale, mCenterX, mCenterY);
         canvas.translate(0, (mCanvasScale - 1) * mLayoutHeight * 6 + mLayoutHeight * 0.4f + mDensity);
         mShadowDrawable.draw(canvas);
@@ -111,7 +109,6 @@ public class AnimButtonLayout extends LinearLayout {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 handleActionDown(ev);
-                Log.w("tan", "action down");
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -125,7 +122,6 @@ public class AnimButtonLayout extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.w("tan", "onsize change");
         mLayoutWidth = w;
         mLayoutHeight = h;
         mCenterX = mLayoutWidth / 2;
@@ -142,7 +138,7 @@ public class AnimButtonLayout extends LinearLayout {
     }
 
     /**
-     * 处理ActionDown事件
+     * 處理ActionDown事件
      *
      * @param ev
      */
@@ -152,7 +148,7 @@ public class AnimButtonLayout extends LinearLayout {
     }
 
     /**
-     * 处理handleActionUp事件
+     * 處理handleActionUp事件
      *
      * @param ev
      */
@@ -162,7 +158,7 @@ public class AnimButtonLayout extends LinearLayout {
     }
 
     /**
-     * 点下去的动画
+     * 點下去的動畫
      */
     private void setupLayoutDownAnimator() {
 
@@ -179,7 +175,7 @@ public class AnimButtonLayout extends LinearLayout {
     }
 
     /**
-     * 抬起手来的动画
+     * 抬起手來的動畫
      */
     private void setupLayoutUpAnimator() {
 
@@ -213,18 +209,10 @@ public class AnimButtonLayout extends LinearLayout {
     }
 
     /**
-     * 设置按钮文字
+     * 設置按鈕文字
      */
     public void setCurrentText(CharSequence charSequence) {
         mDownloadProgressButton.setCurrentText(charSequence);
-    }
-
-
-    /**
-     * 设置带下载进度的文字
-     */
-    public void setProgressText(String text, float progress) {
-        mDownloadProgressButton.setProgressText(text, progress);
     }
 
     public float getProgress() {
@@ -284,12 +272,12 @@ public class AnimButtonLayout extends LinearLayout {
         mDownloadProgressButton.setMaxProgress(maxProgress);
     }
 
-    public void enabelDefaultPress(boolean enable) {
-        mDownloadProgressButton.enabelDefaultPress(enable);
+    public void enableDefaultPress(boolean enable) {
+        mDownloadProgressButton.enableDefaultPress(enable);
     }
 
-    public void enabelDefaultGradient(boolean enable) {
-        mDownloadProgressButton.enabelDefaultGradient(enable);
+    public void enableDefaultGradient(boolean enable) {
+        mDownloadProgressButton.enableDefaultGradient(enable);
     }
 
     public void setTextSize(float size) {

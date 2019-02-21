@@ -14,7 +14,7 @@ public class DefaultButtonController implements ButtonController {
     private boolean enableGradient;
 
     /**
-     * 获得按下的颜色（明度降低10%）
+     * 獲得按下的顏色（明度降低10%）
      *
      * @param color
      * @return int
@@ -27,7 +27,7 @@ public class DefaultButtonController implements ButtonController {
     }
 
     /**
-     * 由右边的颜色算出左边的颜色（左边的颜色比右边的颜色降饱和度30%，亮度增加30%）
+     * 由右邊的顏色算出左邊的顏色（左邊的顏色比右邊的顏色降飽和度30%，亮度增加30%）
      * +
      *
      * @param color
@@ -42,7 +42,7 @@ public class DefaultButtonController implements ButtonController {
     }
 
     /**
-     * 由左边的颜色生成右边的颜色
+     * 由左邊的顏色生成右邊的顏色
      *
      * @param color
      * @return int
