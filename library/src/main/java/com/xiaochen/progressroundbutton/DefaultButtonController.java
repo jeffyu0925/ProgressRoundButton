@@ -2,10 +2,6 @@ package com.xiaochen.progressroundbutton;
 
 import android.graphics.Color;
 
-/**
- * Created by tanfujun on 10/26/16.
- */
-
 public class DefaultButtonController implements ButtonController {
 
 

@@ -3,6 +3,7 @@ package com.xiaochen.progressroundbutton;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,16 +14,11 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.PathInterpolator;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+public class AnimButtonLayout extends RelativeLayout {
 
-/**
- * Created by tanfujun on 10/26/16.
- */
-
-public class AnimButtonLayout extends LinearLayout {
-
-    private AnimDownloadProgressButton mDownloadProgressButton;
+    private AnimProgressButton mDownloadProgressButton;
     private Drawable mShadowDrawable;
     private final int DEFAULT_COLOR = Color.GRAY;
     private TimeInterpolator mInterpolator;
@@ -39,11 +35,12 @@ public class AnimButtonLayout extends LinearLayout {
     private final long ANIM_UP_DURATION = 352;
     private float mTargetScale = 1.0f;
     private float mMinScale = 0.95f;
+    private boolean mIsDrawShadow = true;
 
     public AnimButtonLayout(Context context) {
         super(context);
-        mDownloadProgressButton = new AnimDownloadProgressButton(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mDownloadProgressButton = new AnimProgressButton(context);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mDownloadProgressButton.setLayoutParams(lp);
         this.addView(mDownloadProgressButton);
         init(context, null);
@@ -52,8 +49,8 @@ public class AnimButtonLayout extends LinearLayout {
     public AnimButtonLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
-        mDownloadProgressButton = new AnimDownloadProgressButton(context, attrs);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mDownloadProgressButton = new AnimProgressButton(context, attrs);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mDownloadProgressButton.setLayoutParams(lp);
         this.addView(mDownloadProgressButton);
     }
@@ -65,6 +62,15 @@ public class AnimButtonLayout extends LinearLayout {
         } else {
             mInterpolator = new AccelerateDecelerateInterpolator();
         }
+
+        if (attributeSet != null) {
+            TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.AnimButtonLayout);
+
+            mIsDrawShadow = a.getBoolean(R.styleable.AnimButtonLayout_layout_draw_shadow, true);
+
+            a.recycle();
+        }
+
         mShadowDrawable = getResources().getDrawable(R.drawable.gradient_layout_shadow);
         mDensity = getResources().getDisplayMetrics().density;
     }
@@ -84,7 +90,7 @@ public class AnimButtonLayout extends LinearLayout {
      * @param canvas
      */
     private void drawShadow(Canvas canvas) {
-        if (mShadowDrawable == null) {
+        if (mIsDrawShadow == false || mShadowDrawable == null) {
             return;
         }
         // 繪制陰影,陰影也會根據觸摸事件進行旋轉
@@ -288,7 +294,7 @@ public class AnimButtonLayout extends LinearLayout {
         return mDownloadProgressButton.getTextSize();
     }
 
-    public AnimDownloadProgressButton setCustomerController(ButtonController customerController) {
+    public AnimProgressButton setCustomerController(ButtonController customerController) {
         return mDownloadProgressButton.setCustomerController(customerController);
     }
 }

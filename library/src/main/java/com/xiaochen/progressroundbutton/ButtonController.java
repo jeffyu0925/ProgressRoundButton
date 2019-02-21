@@ -1,9 +1,5 @@
 package com.xiaochen.progressroundbutton;
 
-/**
- * Created by tanfujun on 10/26/16.
- */
-
 public interface ButtonController {
     int getPressedColor(int color);
 
@@ -14,7 +10,5 @@ public interface ButtonController {
     boolean enablePress();
 
     boolean enableGradient();
-
-
 }
 
