@@ -2,10 +2,6 @@
 
 A Smooth Download Button with Progress.
 
-## Demo
-
-![demo](./img/Oct-27-2016 10-39-17.gif)
-
 ## Usage
 
 ### step1
@@ -14,9 +10,7 @@ A Smooth Download Button with Progress.
 
 ```groovy
  dependencies {
-     compile fileTree(dir: 'libs', include: ['*.jar'])
-     compile 'com.android.support:appcompat-v7:23.0.1'
-     compile 'com.xiaochendev.progressroundbtn:library:2.0.0'
+
  }
  ```
 ### step2 
@@ -77,32 +71,6 @@ git
  ![shadow](http://ww2.sinaimg.cn/mw690/6ccf7929gw1f96m1f759gj208h01taa0.jpg)
  
 ## Version
-
-* 2.0.0 
-	Now you can use press effect;
-	Now you can use gradient effect;
-	Add AnimButtomLayout with shadow ，when you press the button will be small;
-
-* 1.1.0
-  Fix the bug when setProgressText("something",100),first tiem getProgress() return 0;
-
-* 1.0.0   
-  Now you can set text size;  
-  Add Method removeAllAnim() to avoid memory leak;
-
-* 0.9.1
-
-## About me 
-
-I am a developer in China，If you have any idea about this project，please [contact me](mailto:cctanfujun@163.com)
-,Thank you!
-
-## 晓晨Android组
-这个是我的公众号，如果你有 Android 开发方面问题可以和我一起讨论，我每周或者每两周会发一两篇原创的Android文章，谢谢支持！
-
-![xiaochen588189](./img/wechat.jpg)
-
-
 
 ## License
 
