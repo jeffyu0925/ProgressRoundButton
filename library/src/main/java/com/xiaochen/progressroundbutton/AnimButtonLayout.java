@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 
 public class AnimButtonLayout extends RelativeLayout {
 
-    private AnimProgressButton mDownloadProgressButton;
+    private AnimProgressButton mProgressButton;
     private Drawable mShadowDrawable;
     private final int DEFAULT_COLOR = Color.GRAY;
     private TimeInterpolator mInterpolator;
@@ -39,20 +39,20 @@ public class AnimButtonLayout extends RelativeLayout {
 
     public AnimButtonLayout(Context context) {
         super(context);
-        mDownloadProgressButton = new AnimProgressButton(context);
+        mProgressButton = new AnimProgressButton(context);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mDownloadProgressButton.setLayoutParams(lp);
-        this.addView(mDownloadProgressButton);
+        mProgressButton.setLayoutParams(lp);
+        this.addView(mProgressButton);
         init(context, null);
     }
 
     public AnimButtonLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
-        mDownloadProgressButton = new AnimProgressButton(context, attrs);
+        mProgressButton = new AnimProgressButton(context, attrs);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mDownloadProgressButton.setLayoutParams(lp);
-        this.addView(mDownloadProgressButton);
+        mProgressButton.setLayoutParams(lp);
+        this.addView(mProgressButton);
     }
 
 
@@ -195,106 +195,107 @@ public class AnimButtonLayout extends RelativeLayout {
         });
         mLayoutUpAnimator.setInterpolator(mInterpolator);
         mLayoutUpAnimator.setDuration(ANIM_UP_DURATION);
-
     }
 
 
     @Override
     public void invalidate() {
         super.invalidate();
-        mDownloadProgressButton.invalidate();
+        mProgressButton.invalidate();
     }
 
     public int getState() {
-        return mDownloadProgressButton.getState();
+        return mProgressButton.getState();
     }
 
     public void setState(int state) {
-        mDownloadProgressButton.setState(state);
-
+        mProgressButton.setState(state);
     }
 
     /**
      * 設置按鈕文字
      */
     public void setCurrentText(CharSequence charSequence) {
-        mDownloadProgressButton.setCurrentText(charSequence);
+        mProgressButton.setCurrentText(charSequence);
     }
 
     public float getProgress() {
-        return mDownloadProgressButton.getProgress();
+        return mProgressButton.getProgress();
     }
 
     public void setProgress(float progress) {
-        mDownloadProgressButton.setProgress(progress);
-
+        mProgressButton.setProgress(progress);
     }
 
     /**
      * Sometimes you should use the method to avoid memory leak
      */
     public void removeAllAnim() {
-        mDownloadProgressButton.removeAllAnim();
+        mProgressButton.removeAllAnim();
     }
 
     public float getButtonRadius() {
-        return mDownloadProgressButton.getButtonRadius();
+        return mProgressButton.getButtonRadius();
     }
 
     public void setButtonRadius(float buttonRadius) {
-        mDownloadProgressButton.setButtonRadius(buttonRadius);
+        mProgressButton.setButtonRadius(buttonRadius);
     }
 
     public int getTextColor() {
-        return mDownloadProgressButton.getTextColor();
+        return mProgressButton.getTextColor();
     }
 
     public void setTextColor(int textColor) {
-        mDownloadProgressButton.setTextColor(textColor);
+        mProgressButton.setTextColor(textColor);
     }
 
     public int getTextCoverColor() {
-        return mDownloadProgressButton.getTextCoverColor();
+        return mProgressButton.getTextCoverColor();
     }
 
     public void setTextCoverColor(int textCoverColor) {
-        mDownloadProgressButton.setTextCoverColor(textCoverColor);
+        mProgressButton.setTextCoverColor(textCoverColor);
     }
 
     public int getMinProgress() {
-        return mDownloadProgressButton.getMinProgress();
+        return mProgressButton.getMinProgress();
     }
 
     public void setMinProgress(int minProgress) {
 
-        mDownloadProgressButton.setMinProgress(minProgress);
+        mProgressButton.setMinProgress(minProgress);
     }
 
     public int getMaxProgress() {
-        return mDownloadProgressButton.getMaxProgress();
+        return mProgressButton.getMaxProgress();
     }
 
     public void setMaxProgress(int maxProgress) {
-        mDownloadProgressButton.setMaxProgress(maxProgress);
+        mProgressButton.setMaxProgress(maxProgress);
     }
 
     public void enableDefaultPress(boolean enable) {
-        mDownloadProgressButton.enableDefaultPress(enable);
+        mProgressButton.enableDefaultPress(enable);
     }
 
     public void enableDefaultGradient(boolean enable) {
-        mDownloadProgressButton.enableDefaultGradient(enable);
+        mProgressButton.enableDefaultGradient(enable);
     }
 
     public void setTextSize(float size) {
-        mDownloadProgressButton.setTextSize(size);
+        mProgressButton.setTextSize(size);
     }
 
     public float getTextSize() {
-        return mDownloadProgressButton.getTextSize();
+        return mProgressButton.getTextSize();
+    }
+
+    public AnimProgressButton getProgressButton() {
+        return mProgressButton;
     }
 
     public AnimProgressButton setCustomerController(ButtonController customerController) {
-        return mDownloadProgressButton.setCustomerController(customerController);
+        return mProgressButton.setCustomerController(customerController);
     }
 }

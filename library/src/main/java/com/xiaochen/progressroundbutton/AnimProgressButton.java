@@ -30,10 +30,12 @@ public class AnimProgressButton extends AppCompatTextView {
     // 第二個點畫筆
     private Paint mDot2Paint;
 
+    private boolean mIsReversalNormalBackgroundColor;
+
     // 背景顏色
     private int[] mBackgroundColor;
     private int[] mOriginBackgroundColor;
-    // 下載中後半部分後面背景顏色
+    // 下載中背景顏色
     private int mBackgroundSecondColor;
     // 文字顏色
     private int mTextColor;
@@ -149,6 +151,8 @@ public class AnimProgressButton extends AppCompatTextView {
         if (enableGradient) {
             initGradientColor(mDefaultController.getLighterColor(mBackgroundColor[0]), mBackgroundColor[0]);
         }
+
+        mIsReversalNormalBackgroundColor = a.getBoolean(R.styleable.AnimProgressButton_progressbtn_is_reversal_normal_background_color, false);
         a.recycle();
     }
 
@@ -157,7 +161,6 @@ public class AnimProgressButton extends AppCompatTextView {
         mMaxProgress = 100;
         mMinProgress = 0;
         mProgress = 0;
-
 
         // 設置背景畫筆
         mBackgroundPaint = new Paint();
@@ -195,7 +198,6 @@ public class AnimProgressButton extends AppCompatTextView {
         mBackgroundColor[1] = rightColor;
         return mBackgroundColor;
     }
-
 
     private void setupAnimations() {
 
@@ -313,7 +315,6 @@ public class AnimProgressButton extends AppCompatTextView {
         return alpha;
     }
 
-
     private ValueAnimator createDotAlphaAnimation(int i, Paint mDot1Paint, int i1, int i2, int i3) {
 
         return new ValueAnimator();
@@ -346,7 +347,12 @@ public class AnimProgressButton extends AppCompatTextView {
 
         switch (mState) {
             case NORMAL:
-                if (buttonController.enableGradient()) {
+                if (mIsReversalNormalBackgroundColor) {
+                    if (mBackgroundPaint.getShader() != null) {
+                        mBackgroundPaint.setShader(null);
+                    }
+                    mBackgroundPaint.setColor(mBackgroundSecondColor);
+                } else if (buttonController.enableGradient()) {
                     mFillBgGradient = new LinearGradient(0, getMeasuredHeight() / 2, getMeasuredWidth(), getMeasuredHeight() / 2,
                             mBackgroundColor,
                             null,
@@ -444,9 +450,7 @@ public class AnimProgressButton extends AppCompatTextView {
                 canvas.drawCircle((getMeasuredWidth() + textWidth) / 2 + 4 + mDot1transX, y, 4, mDot1Paint);
                 canvas.drawCircle((getMeasuredWidth() + textWidth) / 2 + 24 + mDot2transX, y, 4, mDot2Paint);
                 break;
-
         }
-
     }
 
     private ButtonController switchController() {
@@ -474,7 +478,6 @@ public class AnimProgressButton extends AppCompatTextView {
                 mDotAnimationSet.cancel();
             }
         }
-
     }
 
     /**
@@ -491,7 +494,6 @@ public class AnimProgressButton extends AppCompatTextView {
 
     public void setProgress(float progress) {
         this.mProgress = progress;
-
     }
 
     /**
@@ -511,7 +513,6 @@ public class AnimProgressButton extends AppCompatTextView {
 
 
     public void setProgressBtnBackgroundSecondColor(int color) {
-
         mBackgroundSecondColor = color;
     }
 
