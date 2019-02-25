@@ -41,6 +41,7 @@ public class AnimProgressButton extends AppCompatTextView {
     private int mTextColor;
     // 覆蓋後顏色
     private int mTextCoverColor;
+
     // 文字大小
     private float mAboveTextSize = 50;
 
@@ -115,12 +116,12 @@ public class AnimProgressButton extends AppCompatTextView {
                 mOriginBackgroundColor[1] = mBackgroundColor[1];
             }
             if (this.isPressed()) {
-                int pressColorleft = buttonController.getPressedColor(mBackgroundColor[0]);
-                int pressColorright = buttonController.getPressedColor(mBackgroundColor[1]);
+                int pressedColorLeft = buttonController.getPressedColor(mBackgroundColor[0]);
+                int pressedColorRight = buttonController.getPressedColor(mBackgroundColor[1]);
                 if (buttonController.enableGradient()) {
-                    initGradientColor(pressColorleft, pressColorright);
+                    initGradientColor(pressedColorLeft, pressedColorRight);
                 } else {
-                    initGradientColor(pressColorleft, pressColorleft);
+                    initGradientColor(pressedColorLeft, pressedColorLeft);
                 }
             } else {
                 if (buttonController.enableGradient()) {
@@ -470,12 +471,15 @@ public class AnimProgressButton extends AppCompatTextView {
         if (mState != state) {
             this.mState = state;
             invalidate();
-            if (state == AnimProgressButton.ACTIVATING) {
-                mDotAnimationSet.start();
-            } else if (state == NORMAL) {
-                mDotAnimationSet.cancel();
-            } else if (state == PROCESSING) {
-                mDotAnimationSet.cancel();
+
+            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                if (state == AnimProgressButton.ACTIVATING) {
+                    mDotAnimationSet.start();
+                } else if (state == NORMAL) {
+                    mDotAnimationSet.cancel();
+                } else if (state == PROCESSING) {
+                    mDotAnimationSet.cancel();
+                }
             }
         }
     }
@@ -494,6 +498,18 @@ public class AnimProgressButton extends AppCompatTextView {
 
     public void setProgress(float progress) {
         this.mProgress = progress;
+
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+        } else {
+            invalidate();
+        }
+    }
+
+    public void setProgress(float progress, boolean needInvalidate) {
+        this.mProgress = progress;
+
+        if (needInvalidate)
+            invalidate();
     }
 
     /**
@@ -505,7 +521,6 @@ public class AnimProgressButton extends AppCompatTextView {
         mProgressAnimation.cancel();
         mProgressAnimation.removeAllListeners();
     }
-
 
     public void setProgressBtnBackgroundColor(int color) {
         initGradientColor(color, color);

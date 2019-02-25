@@ -104,24 +104,16 @@ public class AnimButtonLayout extends RelativeLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
         if (!isEnabled()) {
             return false;
         }
+
         if (!isClickable()) {
             return false;
         }
 
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                handleActionDown(ev);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                handleActionUp(ev);
-                break;
-        }
+        setTouchAnimation(ev);
+
         return super.dispatchTouchEvent(ev);
     }
 
@@ -140,6 +132,20 @@ public class AnimButtonLayout extends RelativeLayout {
 
         if (getParent() instanceof ViewGroup) {
             ((ViewGroup) getParent()).setClipChildren(false);
+        }
+    }
+
+    public void setTouchAnimation(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                handleActionDown(ev);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                handleActionUp(ev);
+                break;
         }
     }
 
@@ -164,7 +170,7 @@ public class AnimButtonLayout extends RelativeLayout {
     }
 
     /**
-     * 點下去的動畫
+     * Action down動畫
      */
     private void setupLayoutDownAnimator() {
 
@@ -181,7 +187,7 @@ public class AnimButtonLayout extends RelativeLayout {
     }
 
     /**
-     * 抬起手來的動畫
+     * Action up動畫
      */
     private void setupLayoutUpAnimator() {
 
@@ -223,8 +229,8 @@ public class AnimButtonLayout extends RelativeLayout {
         return mProgressButton.getProgress();
     }
 
-    public void setProgress(float progress) {
-        mProgressButton.setProgress(progress);
+    public void setProgress(float progress, boolean needInvalidate) {
+        mProgressButton.setProgress(progress, needInvalidate);
     }
 
     /**
