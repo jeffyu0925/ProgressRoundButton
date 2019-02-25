@@ -12,14 +12,14 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.view.animation.PathInterpolatorCompat;
-
-public class AnimProgressButton extends AppCompatTextView {
+public class AnimProgressButton extends TextView {
 
     // 背景畫筆
     private Paint mBackgroundPaint;
@@ -132,7 +132,6 @@ public class AnimProgressButton extends AppCompatTextView {
             }
             invalidate();
         }
-
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
@@ -204,7 +203,7 @@ public class AnimProgressButton extends AppCompatTextView {
 
         // 兩個點向右移動動畫
         ValueAnimator dotMoveAnimation = ValueAnimator.ofFloat(0, 20);
-        TimeInterpolator pathInterpolator = PathInterpolatorCompat.create(0.11f, 0f, 0.12f, 1f);
+        TimeInterpolator pathInterpolator = new LinearInterpolator();
         dotMoveAnimation.setInterpolator(pathInterpolator);
         dotMoveAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
