@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
@@ -64,8 +65,6 @@ public class AnimProgressButton extends TextView {
 
     // 點運動動畫
     private AnimatorSet mDotAnimationSet;
-    // 下載平滑動畫
-    private ValueAnimator mProgressAnimation;
 
     // 記錄當前文字
     private CharSequence mCurrentText;
@@ -184,11 +183,9 @@ public class AnimProgressButton extends TextView {
         mDot2Paint.setAntiAlias(true);
         mDot2Paint.setTextSize(mAboveTextSize);
 
-
         // 初始化狀態設為NORMAL
         mState = NORMAL;
         invalidate();
-
     }
 
     // 初始化漸變色
@@ -232,9 +229,7 @@ public class AnimProgressButton extends TextView {
                 mDot1Paint.setAlpha(dot1Alpha);
                 mDot2Paint.setAlpha(dot2Alpha);
             }
-
         });
-
 
         dotAlphaAnim.addListener(new Animator.AnimatorListener() {
             @Override
@@ -249,12 +244,10 @@ public class AnimProgressButton extends TextView {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-
             }
 
             @Override
             public void onAnimationRepeat(Animator animation) {
-
             }
         });
         dotAlphaAnim.setRepeatMode(ValueAnimator.RESTART);
@@ -262,19 +255,6 @@ public class AnimProgressButton extends TextView {
         // 兩個點的動畫集合
         mDotAnimationSet = new AnimatorSet();
         mDotAnimationSet.playTogether(dotAlphaAnim, dotMoveAnimation);
-
-        // ProgressBar的動畫
-        mProgressAnimation = ValueAnimator.ofFloat(0, 1).setDuration(500);
-        mProgressAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float timepercent = (float) animation.getAnimatedValue();
-                mProgress = ((mToProgress - mProgress) * timepercent + mProgress);
-                invalidate();
-            }
-        });
-
-
     }
 
     //  第一個點透明度計算函數
@@ -517,8 +497,6 @@ public class AnimProgressButton extends TextView {
     public void removeAllAnim() {
         mDotAnimationSet.cancel();
         mDotAnimationSet.removeAllListeners();
-        mProgressAnimation.cancel();
-        mProgressAnimation.removeAllListeners();
     }
 
     public void setProgressBtnBackgroundColor(int color) {
